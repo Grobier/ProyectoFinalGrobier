@@ -7,7 +7,7 @@ function Checkout() {
   if (cart.length === 0) {
     return (
       <div className="container my-5 text-center">
-        <h2>Tu carrito está vacío</h2>
+        <h2>Gracias por su compra!</h2>
       </div>
     );
   }
