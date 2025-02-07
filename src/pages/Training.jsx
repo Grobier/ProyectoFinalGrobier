@@ -3,7 +3,13 @@ import { useCart } from "../context/CartContext";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../services/firebaseConfig";
 import ItemCount from "../components/ItemCount";
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
+// Importa las imágenes
+import imagenTraining1 from '../assets/t.webp';
+import imagenTraining2 from '../assets/p2.avif';
+import imagenTraining3 from '../assets/p3.jpg';
 
 const formatCLP = (amount) => {
   return `$${amount.toLocaleString('es-CL')}`;
@@ -80,6 +86,19 @@ function Training() {
     });
   };
 
+  const getImageForService = (serviceId) => {
+    switch (serviceId) {
+      case 'training_1_1':
+        return imagenTraining1;
+      case 'training_1_2':
+        return imagenTraining2;
+      case 'training_1_3':
+        return imagenTraining3;
+      default:
+        return imagenTraining1; // Imagen por defecto
+    }
+  };
+
   if (loading) {
     return <div className="container my-5 text-center">Cargando opciones...</div>;
   }
@@ -87,19 +106,20 @@ function Training() {
   return (
     <div className="container my-5">
       <h1 className="mb-4">Entrenamiento</h1>
-      <div className="row">
+      <div className="row justify-content-center">
         {services.map((service) => (
-          <div key={service.id} className="col-md-4">
-            <div
-              className={`card shadow-sm mb-4 ${selectedService?.id === service.id ? "border-primary" : ""}`}
+          <div key={service.id} className="col-md-4 d-flex align-items-stretch">
+            <Card
+              className={`shadow-sm mb-4 w-100 ${selectedService?.id === service.id ? "border-primary" : ""}`}
               onClick={() => setSelectedService(service)}
               style={{ cursor: "pointer" }}
             >
-              <div className="card-body">
-                <h5 className="card-title">{service.title}</h5>
-                <p className="card-text">{service.description}</p>
-              </div>
-            </div>
+              <Card.Img variant="top" src={getImageForService(service.id)} alt={service.title} />
+              <Card.Body className="d-flex flex-column">
+                <Card.Title>{service.title}</Card.Title>
+                <Card.Text className="flex-grow-1">{service.description}</Card.Text>
+              </Card.Body>
+            </Card>
           </div>
         ))}
       </div>
@@ -109,45 +129,45 @@ function Training() {
           <h3>Selecciona tu plan</h3>
           <div className="mb-3">
             {plans.map((plan) => (
-              <button
+              <Button
                 key={plan.id}
-                className={`btn btn-outline-primary me-2 ${selectedPlan === plan.id ? "active" : ""}`}
+                variant={selectedPlan === plan.id ? "primary" : "outline-primary"}
+                className="me-2"
                 onClick={() => setSelectedPlan(plan.id)}
               >
                 {plan.label}
-              </button>
+              </Button>
             ))}
           </div>
           <div className="mb-3">
-            <button
-              className={`btn btn-outline-secondary me-2 ${duration === "monthly" ? "active" : ""}`}
+            <Button
+              variant={duration === "monthly" ? "secondary" : "outline-secondary"}
+              className="me-2"
               onClick={() => setDuration("monthly")}
             >
               Mensual
-            </button>
-            <button
-              className={`btn btn-outline-secondary me-2 ${duration === "quarterly" ? "active" : ""}`}
+            </Button>
+            <Button
+              variant={duration === "quarterly" ? "secondary" : "outline-secondary"}
+              className="me-2"
               onClick={() => setDuration("quarterly")}
             >
               Trimestral
-            </button>
-            <button
-              className={`btn btn-outline-secondary me-2 ${duration === "yearly" ? "active" : ""}`}
+            </Button>
+            <Button
+              variant={duration === "yearly" ? "secondary" : "outline-secondary"}
+              className="me-2"
               onClick={() => setDuration("yearly")}
             >
               Anual
-            </button>
+            </Button>
           </div>
           <p className="fw-bold">
             Precio total: {formatCLP(calculatePrice())}
           </p>
-          <button
-            className="btn btn-success"
-            onClick={handleAddToCart}
-          >
+          <Button variant="success" onClick={handleAddToCart}>
             Agregar al Carrito
-          </button>
-
+          </Button>
         </div>
       )}
     </div>

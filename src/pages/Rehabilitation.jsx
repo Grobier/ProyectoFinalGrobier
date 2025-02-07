@@ -3,6 +3,10 @@ import { useCart } from "../context/CartContext";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../services/firebaseConfig";
 
+// Importa las imágenes
+import imagenEvaluacion from '../assets/e.jpeg';
+import imagenSesiones from '../assets/s.jpeg';
+
 function Rehabilitation() {
   const { addToCart } = useCart();
   const [services, setServices] = useState([]);
@@ -57,13 +61,18 @@ function Rehabilitation() {
   return (
     <div className="container my-5">
       <h1 className="mb-4">Rehabilitación</h1>
-      <div className="row">
+      <div className="row justify-content-center">
         {services.map((service) => (
-          <div key={service.id} className="col-md-6">
-            <div className="card shadow-sm mb-4">
-              <div className="card-body">
+          <div key={service.id} className="col-md-6 col-lg-4 d-flex align-items-stretch">
+            <div className="card shadow-sm mb-4 w-100">
+              <img
+                src={service.id === "evaluation" ? imagenEvaluacion : imagenSesiones}
+                className="card-img-top"
+                alt={service.title}
+              />
+              <div className="card-body d-flex flex-column">
                 <h5 className="card-title">{service.title}</h5>
-                <p className="card-text">{service.description}</p>
+                <p className="card-text flex-grow-1">{service.description}</p>
                 <p className="text-success fw-bold">
                   Precio: ${service.id === "sessions" ? `${service.price} por sesión` : service.price}
                 </p>
@@ -87,7 +96,7 @@ function Rehabilitation() {
                 )}
 
                 <button
-                  className="btn btn-success"
+                  className="btn btn-success mt-auto"
                   onClick={() => handleAddToCart(service)}
                 >
                   Agregar al Carrito
