@@ -3,6 +3,9 @@ import { useCart } from "../context/CartContext";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../services/firebaseConfig";
 
+// Importa la imagen
+import imagenEvaluacion from '../assets/rendimiento.jpg';
+
 function Performance() {
   const { addToCart } = useCart();
   const [service, setService] = useState(null);
@@ -41,6 +44,7 @@ function Performance() {
     <div className="container my-5">
       <h1 className="mb-4">{service.title}</h1>
       <div className="card shadow-sm">
+        <img src={imagenEvaluacion} className="card-img-top" alt="Evaluación para la mejora del rendimiento" />
         <div className="card-body">
           <p className="card-text">{service.description}</p>
           <p className="text-success fw-bold">Precio: ${service.price}</p>

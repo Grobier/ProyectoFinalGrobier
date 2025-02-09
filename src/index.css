@@ -1,4 +1,4 @@
-/* Asegura que el html y body ocupen toda la altura */
+
 html, body {
   height: 100%;
   margin: 0;
@@ -7,14 +7,14 @@ html, body {
   flex-direction: column;
 }
 
-/* El contenedor principal de la app */
+
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* El contenido principal debe crecer para llenar el espacio */
+
 .main-content {
   flex: 1;
 }
@@ -79,5 +79,3 @@ footer {
 .mt-5 {
   margin-top: 0 !important;
 }
-
-
